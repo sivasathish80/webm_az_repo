@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<webMethodsTestSuite description="" name="InvoiceProcessTest">
+    <webMethodsTestCase name="Average_Success">
+        <service folder="AzInvoiceProcess.service" name="calculateInvoiceAmountAvg">
+            <input>
+                <file filename="resources/test/data/Average_Success_Input.xml"/>
+            </input>
+            <expected>
+                <file filename="resources/test/data/Average_Success_Output.xml"/>
+            </expected>
+        </service>
+    </webMethodsTestCase>
+    <webMethodsTestCase name="Null_Inputs">
+        <service folder="AzInvoiceProcess.service" name="calculateInvoiceAmountAvg">
+            <input>
+                <file filename="resources/test/data/Null_Input.xml"/>
+            </input>
+            <expected>
+                <exception class="com.wm.lang.flow.FlowException" message="java.lang.ArithmeticException: / by zero"/>
+            </expected>
+        </service>
+    </webMethodsTestCase>
+    <webMethodsTestCase name="Missing_Inputs">
+        <service folder="AzInvoiceProcess.service" name="calculateInvoiceAmountAvg">
+            <input>
+                <file filename="resources/test/data/Missing_Input.xml"/>
+            </input>
+            <expected>
+                <exception class="com.wm.lang.flow.FlowException" message="Missing Parameter: num2"/>
+            </expected>
+        </service>
+    </webMethodsTestCase>
+</webMethodsTestSuite>

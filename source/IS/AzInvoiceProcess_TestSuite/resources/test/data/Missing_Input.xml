@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<IDataXMLCoder version="1.0">
+  <record javaclass="com.wm.data.ISMemDataImpl">
+    <array name="Invoices" type="record" depth="1">
+      <record javaclass="com.wm.data.ISMemDataImpl">
+        <record name="Invoice" javaclass="com.wm.data.ISMemDataImpl">
+          <value name="inoviceID">INV0001</value>
+          <value name="invoiceDate">25-01-2021</value>
+          <value name="invoiceValue">100</value>
+        </record>
+      </record>
+      <record javaclass="com.wm.data.ISMemDataImpl">
+        <record name="Invoice" javaclass="com.wm.data.ISMemDataImpl">
+          <value name="inoviceID">INV0002</value>
+          <value name="invoiceDate">18-01-2021</value>
+        </record>
+      </record>
+    </array>
+  </record>
+</IDataXMLCoder>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<IDataXMLCoder version="1.0">
+  <record javaclass="com.wm.data.ISMemDataImpl">
+    <number name="CacheSize" type="java.lang.Long">10</number>
+    <number name="CacheTTL" type="java.lang.Long">3600000</number>
+    <number name="CacheExpire" type="java.lang.Long">3600000</number>
+    <array name="ConfiguredServers" type="record" depth="1">
+    </array>
+    <record name="Groups" javaclass="com.wm.data.ISMemDataImpl">
+    </record>
+  </record>
+</IDataXMLCoder>

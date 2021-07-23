@@ -3,9 +3,6 @@
 variables:
   sagHome: '/opt/softwareag/is106'
 
-parameters:
-  sagHome1: '/opt/softwareag/is106'  
-
 trigger:
 - master
 
@@ -19,12 +16,12 @@ stages:
     steps:
     - bash: |
        echo $(Agent.BuildDirectory)
-       echo ${{parameters.sagHome1}}
+       echo ${{parameters.sagHome}}
        BuildDir=$(Agent.BuildDirectory)
        echo $BuildDir
-       cd ${{parameters.sagHome1}}/common/AssetBuildEnvironment/bin/
+       cd ${{parameters.sagHome}}/common/AssetBuildEnvironment/bin/
        sudo ./build.sh \
-        -Dsag.install.dir=${{parameters.sagHome1}} \
+        -Dsag.install.dir=${{parameters.sagHome}} \
         -Dbuild.source.dir=$BuildDir/s/source/IS/ \
         -Dbuild.output.dir=$BuildDir/build/ \
         -Denable.build.IS=true \

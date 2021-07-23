@@ -1,7 +1,7 @@
 # Starter pipeline
 
 variables:
-  sagHome: '/opt/softwareag/is106'
+  sagHome: '/opt/softwareag/is105'
 
 trigger:
 - master
@@ -16,12 +16,12 @@ stages:
     steps:
     - bash: |
        echo $(Agent.BuildDirectory)
-       echo ${{parameters.sagHome}}
+       echo ${{variables.sagHome}}
        BuildDir=$(Agent.BuildDirectory)
        echo $BuildDir
-       cd ${{parameters.sagHome}}/common/AssetBuildEnvironment/bin/
+       cd ${{variables.sagHome}}/common/AssetBuildEnvironment/bin/
        sudo ./build.sh \
-        -Dsag.install.dir=${{parameters.sagHome}} \
+        -Dsag.install.dir=${{variables.sagHome}} \
         -Dbuild.source.dir=$BuildDir/s/source/IS/ \
         -Dbuild.output.dir=$BuildDir/build/ \
         -Denable.build.IS=true \
@@ -45,5 +45,8 @@ stages:
     steps:
     - bash: |
        cd $(Agent.BuildDirectory)
+       ls -ltr
        rm -rf *
+       echo "Deleted the files"
+       ls -ltr
          

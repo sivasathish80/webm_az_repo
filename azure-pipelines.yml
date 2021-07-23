@@ -1,7 +1,7 @@
 # Starter pipeline
 
 trigger:
-- main
+- master
 
 pool:
   name: lxn-agent-pool
@@ -9,38 +9,29 @@ pool:
 stages:
 - stage: Build
   jobs:
-  - job: Job1
+  - job: ABE_Job
     steps:
-      - script: echo Hello, BuildJob1!
-    displayName: 'Run BuildJob1'
-  - job: Job2
-    dependsOn: Job1
-    steps:
-      - script: echo Hello, BuildJob2!
-    displayName: 'Run BuildJob2'
-- stage: Dev
+    - bash: |
+       pwd
+       sudo mkdir build 
+       cd ${sagHome}/common/AssetBuildEnvironment/bin/
+       sudo ./build.sh \
+        -Dsag.install.dir=${sagHome} \
+        -Dbuild.source.dir=./source/IS/ \
+        -Dbuild.output.dir=./build/ \
+        -Denable.build.IS=true \
+        -Dbuild.version=1.0
+       
+       
+       cd build
+       ls -ltr
+    displayName: 'Create ABE Build'
+- stage: Stage
   jobs:
-  - job: DevJob1
+  - job: Stage_Deploy_Job
     steps:
       - script: echo Hello, DevJob1!
-    displayName: 'Run DevJob1'
-  - job: DevJob2
-    steps:
-      - script: echo Hello, DevJob1!
-    displayName: 'Run DevJob1'
-- stage: QA
-  jobs:
-  - job: QAJob1
-    steps:
-      - script: echo Hello, QAJob1!
-    displayName: 'Run DevJob1'
-- stage: Prod
-  jobs:
-  - deployment: ProdDeployJob1
-    environment: Prod
-    strategy: 
-     runOnce:
-       deploy:
-        steps:
-          - script: echo Hello, ProdDeployJob1!
+    displayName: 'Deploy_Stage_Env'
+
+
          

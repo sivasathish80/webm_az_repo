@@ -24,8 +24,8 @@ stages:
        cd ${{variables.sagHome}}/common/AssetBuildEnvironment/bin/
        sudo ./build.sh \
         -Dsag.install.dir=${{variables.sagHome}} \
-        -Dbuild.source.dir=$(Agent.BuildDirectory)/source/IS/ \
-        -Dbuild.output.dir=$(Agent.BuildDirectory)/build/ \
+        -Dbuild.source.dir=$BuildDir/s/source/IS/ \
+        -Dbuild.output.dir=$BuildDir/build/ \
         -Denable.build.IS=true \
         -Dbuild.version=1.0
        

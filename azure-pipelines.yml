@@ -1,7 +1,7 @@
 # Starter pipeline
 
 variables:
-  sagHome: '/opt/softwareag/is105'
+  sagHome: '/opt/softwareag/is106'
 
 trigger:
 - master
@@ -31,6 +31,7 @@ stages:
        cd $BuildDir/build/
        ls -ltr
     displayName: 'Create ABE Build'
+
 - stage: Stage
   jobs:
   - job: Stage_Deploy_Job
@@ -38,5 +39,11 @@ stages:
       - script: echo Hello, DevJob1!
     displayName: 'Deploy_Stage_Env'
 
-
+- stage: CleanUp
+  jobs:
+  - job: Cleanup_Job
+    steps:
+    - bash: |
+       cd $(Agent.BuildDirectory)
+       rm -rf *
          

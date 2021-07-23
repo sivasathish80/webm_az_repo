@@ -3,11 +3,12 @@
 
 
 parameters:
-- name: tragetEnvironment
+- name: targetEnvironment
   displayName: Target Environment
   type: string
   default: sandbox
   values:
+  - sandbox  
   - sit
   - uat
   - prod
@@ -25,7 +26,8 @@ stages:
     steps:
     - bash: |
        echo $(Agent.BuildDirectory)
-       echo ${{variables.sagHome}}
+       echo $(sagHome)
+       echo ${{parameters.targetEnvironment}}
        BuildDir=$(Agent.BuildDirectory)
        echo $BuildDir
        cd ${{variables.sagHome}}/common/AssetBuildEnvironment/bin/

@@ -7,11 +7,11 @@ parameters:
 - name: tragetEnvironment
   displayName: Target Environment
   type: string
-  default: STAGE
+  default: sandbox
   values:
-  - SIT
-  - UAT
-  - PROD
+  - sit
+  - uat
+  - prod
 
 trigger:
 - master
@@ -41,9 +41,9 @@ stages:
        ls -ltr
     displayName: 'Create ABE Build'
 
-- stage: Stage
+- stage: SandBox
   jobs:
-  - job: Stage_Deploy_Job
+  - job: SandBox_Deploy_Job
     steps:
       - script: echo Hello, DevJob1!
     displayName: 'Deploy_Stage_Env'

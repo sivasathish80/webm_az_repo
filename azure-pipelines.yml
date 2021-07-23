@@ -1,5 +1,8 @@
 # Starter pipeline
 
+variables:
+  sagHome: '/opt/softwareag/is105'
+
 trigger:
 - master
 

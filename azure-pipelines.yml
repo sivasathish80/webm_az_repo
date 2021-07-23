@@ -17,6 +17,8 @@ stages:
     - bash: |
        echo $(Agent.BuildDirectory)
        echo ${{variables.sagHome}}
+       BuildDir=$(Agent.BuildDirectory)
+       echo $BuildDir
        pwd
        sudo mkdir build 
        cd ${{variables.sagHome}}/common/AssetBuildEnvironment/bin/

@@ -15,9 +15,10 @@ stages:
   - job: ABE_Job
     steps:
     - bash: |
+       echo ${{variables.sagHome}}
        pwd
        sudo mkdir build 
-       cd ${sagHome}/common/AssetBuildEnvironment/bin/
+       cd ${{variables.sagHome}}/common/AssetBuildEnvironment/bin/
        sudo ./build.sh \
         -Dsag.install.dir=${sagHome} \
         -Dbuild.source.dir=./source/IS/ \

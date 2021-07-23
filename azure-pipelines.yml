@@ -19,8 +19,6 @@ stages:
        echo ${{variables.sagHome}}
        BuildDir=$(Agent.BuildDirectory)
        echo $BuildDir
-       pwd
-       sudo mkdir build 
        cd ${{variables.sagHome}}/common/AssetBuildEnvironment/bin/
        sudo ./build.sh \
         -Dsag.install.dir=${{variables.sagHome}} \
@@ -30,7 +28,7 @@ stages:
         -Dbuild.version=1.0
        
        
-       cd build
+       cd $BuildDir/build/
        ls -ltr
     displayName: 'Create ABE Build'
 - stage: Stage

@@ -15,12 +15,15 @@ stages:
   - job: ABE_Job
     steps:
     - bash: |
+       echo $(Agent.BuildDirectory)
        echo ${{variables.sagHome}}
        pwd
+       CurrentDir = `pwd`
+       echo $CurrentDir
        sudo mkdir build 
        cd ${{variables.sagHome}}/common/AssetBuildEnvironment/bin/
        sudo ./build.sh \
-        -Dsag.install.dir=${sagHome} \
+        -Dsag.install.dir=${{variables.sagHome}} \
         -Dbuild.source.dir=./source/IS/ \
         -Dbuild.output.dir=./build/ \
         -Denable.build.IS=true \

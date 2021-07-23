@@ -18,14 +18,12 @@ stages:
        echo $(Agent.BuildDirectory)
        echo ${{variables.sagHome}}
        pwd
-       CurrentDir = `pwd`
-       echo $CurrentDir
        sudo mkdir build 
        cd ${{variables.sagHome}}/common/AssetBuildEnvironment/bin/
        sudo ./build.sh \
         -Dsag.install.dir=${{variables.sagHome}} \
-        -Dbuild.source.dir=./source/IS/ \
-        -Dbuild.output.dir=./build/ \
+        -Dbuild.source.dir=$(Agent.BuildDirectory)/source/IS/ \
+        -Dbuild.output.dir=$(Agent.BuildDirectory)/build/ \
         -Denable.build.IS=true \
         -Dbuild.version=1.0
        

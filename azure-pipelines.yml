@@ -1,7 +1,17 @@
 # Starter pipeline
 
 variables:
-  sagHome: '/opt/softwareag/is105'
+  sagHome: '/opt/softwareag/is1051'
+
+parameters:
+- name: tragetEnvironment
+  displayName: Target Environment
+  type: string
+  default: STAGE
+  values:
+  - SIT
+  - UAT
+  - PROD
 
 trigger:
 - master

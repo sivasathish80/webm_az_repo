@@ -1,7 +1,7 @@
 # Starter pipeline
 
 trigger:
-- master
+- main
 
 pool:
   vmImage: 'lxn-agent-pool'

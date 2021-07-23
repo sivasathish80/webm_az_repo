@@ -25,7 +25,7 @@ stages:
     steps:
     - bash: |
        echo $(Agent.BuildDirectory)
-       echo ${{variables.sagHome}}
+       echo ${sagHome}
        BuildDir=$(Agent.BuildDirectory)
        echo $BuildDir
        cd ${{variables.sagHome}}/common/AssetBuildEnvironment/bin/

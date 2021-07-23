@@ -4,7 +4,7 @@ trigger:
 - main
 
 pool:
-  vmImage: 'lxn-agent-pool'
+  name: lxn-agent-pool
 
 stages:
 - stage: Build

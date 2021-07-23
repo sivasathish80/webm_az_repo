@@ -20,13 +20,12 @@ stages:
        BuildDir=$(Agent.BuildDirectory)
        echo $BuildDir
        cd ${{variables.sagHome}}/common/AssetBuildEnvironment/bin/
-       sudo ./build.sh \
+       ./build.sh \
         -Dsag.install.dir=${{variables.sagHome}} \
         -Dbuild.source.dir=$BuildDir/s/source/IS/ \
         -Dbuild.output.dir=$BuildDir/build/ \
         -Denable.build.IS=true \
-        -Dbuild.version=1.0
-       
+        -Dbuild.version=1.0      
        
        cd $BuildDir/build/
        ls -ltr

@@ -80,6 +80,7 @@ stages:
         -Dis.version=$(targetVersion)
     displayName: 'Create_Stage_Project'
   - job: Deploy_Stage
+    dependsOn: Create_Stage_Project
     steps:
     - bash: |
        echo $(sagHome)
@@ -123,6 +124,7 @@ stages:
         -Dis.version=$(targetVersion)
     displayName: 'Create_Target_Project'
   - job: Deploy_Target
+    dependsOn: Create_Target_Project
     steps:
     - bash: |    
        echo $(sagHome)

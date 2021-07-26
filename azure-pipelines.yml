@@ -30,7 +30,7 @@ pool:
 stages:
 - stage: Build
   jobs:
-  - job: Create Build
+  - job: Create_Build
     steps:
     - bash: |
        echo $(buildName)
@@ -48,11 +48,11 @@ stages:
        
        cd $(buildDir)/build/
        ls -ltr
-    displayName: 'Build'
+    displayName: 'Create_Build'
 
 - stage: Stage
   jobs:
-  - job: Create Stage Project
+  - job: Create_Stage_Project
     steps:
     - bash: |
        echo $(sagHome)
@@ -78,8 +78,8 @@ stages:
         -Dis_target.user=$(targetUser) \
         -Dis_target.pwd=$(targetPassword) \
         -Dis.version=$(targetVersion)
-    displayName: 'Create Stage Project'
-  - job: Deploy Stage
+    displayName: 'Create_Stage_Project'
+  - job: Deploy_Stage
     steps:
     - bash: |
        echo $(sagHome)
@@ -91,11 +91,11 @@ stages:
         -port $(targetPort) \
         -user $(targetUser) \
         -pwd $(targetPassword)      
-    displayName: 'Deploy Stage'    
+    displayName: 'Deploy_Stage'    
 
 - stage: Deploy
   jobs:
-  - job: Create Target Project
+  - job: Create_Target_Project
     steps:
     - bash: |
        echo $(sagHome)
@@ -121,8 +121,8 @@ stages:
         -Dis_target.user=$(targetUser) \
         -Dis_target.pwd=$(targetPassword) \
         -Dis.version=$(targetVersion)
-    displayName: 'Create Target Project'
-  - job: Deploy Target
+    displayName: 'Create_Target_Project'
+  - job: Deploy_Target
     steps:
     - bash: |    
        echo $(sagHome)
@@ -134,7 +134,7 @@ stages:
         -port $(targetPort) \
         -user $(targetUser) \
         -pwd $(targetPassword)  
-    displayName: 'Deploy Target'    
+    displayName: 'Deploy_Target'    
 
 - stage: CleanUp
   jobs:

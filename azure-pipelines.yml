@@ -79,6 +79,9 @@ stages:
         -Dis_target.pwd=$(stagePassword) \
         -Dis.version=$(targetVersion)
     displayName: 'Create_Stage_Project'
+
+- stage: Stage1
+  jobs:
   - job: Deploy_Stage
     steps:
     - bash: |

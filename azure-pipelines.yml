@@ -29,6 +29,7 @@ stages:
   - job: ABE_Job
     steps:
     - bash: |
+       echo $(name)
        echo $(buildName)
        echo $(Agent.BuildDirectory)
        echo $(sagHome)

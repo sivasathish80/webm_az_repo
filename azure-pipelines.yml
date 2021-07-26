@@ -8,12 +8,13 @@ variables:
   jobDisplayName: $(System.JobDisplayName)
   jobAttempt: $(System.JobAttempt)
   defId: $(System.DefinitionId)
+  name: $(TeamProject)_$(Build.DefinitionName)_$(SourceBranchName)_$(Date:yyyyMMdd)$(Rev:.r)
   
 parameters:
 - name: targetEnvironment
   displayName: Target Environment
   type: string
-  default: sandbox
+  default: stage
   values:
   - stage  
   - sit
@@ -32,6 +33,7 @@ stages:
   - job: ABE_Job
     steps:
     - bash: |
+       echo $(name)
        echo $(defId)
        echo $(job)
        echo $(jobId)
@@ -59,7 +61,7 @@ stages:
   jobs:
   - job: Stage_Deploy_Job
     steps:
-      - script: echo Hello, DevJob1! $(System.JobId)
+      - script: echo Hello, DevJob1! $(System.JobId) $(name)
     displayName: 'Deploy_Stage_Env'
 
 - stage: CleanUp
@@ -67,7 +69,7 @@ stages:
   - job: Cleanup_Job
     steps:
     - bash: |
-       echo $(System.JobId)
+       echo $(System.JobId) $(name)
        cd $(Agent.BuildDirectory)
        ls -ltr
        rm -rf *

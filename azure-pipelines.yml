@@ -4,7 +4,9 @@ variables:
   server: 'localhost'
   jobId: $(System.JobId)
   jobName: $(System.JobName)
-  job: $(jobId)"_"$(jobName)  
+  job: $(jobId)"_"$(jobName)
+  jobDisplayName: $(System.JobDisplayName)
+  jobAttempt: $(System.JobAttempt)
   
 parameters:
 - name: targetEnvironment
@@ -31,7 +33,9 @@ stages:
     - bash: |
        echo $(job)
        echo $(jobId)
-       echo $(jobName)       
+       echo $(jobName)
+       echo $(jobDisplayName)
+       echo $(jobAttempt)       
        echo $(Agent.BuildDirectory)
        echo $(sagHome)
        echo ${{parameters.targetEnvironment}}

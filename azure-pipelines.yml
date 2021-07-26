@@ -94,6 +94,21 @@ stages:
         -pwd $(stagePassword)      
     displayName: 'Deploy_Stage'     
 
+- stage: UnitTest
+  jobs:
+  - job: UnitTest
+    steps:
+    - bash: |
+       echo $(sagHome)
+       cd $(sagHome)/common/lib/ant/bin/
+       ./ant -file $(buildDir)/s/scripts/unittest/build-runsuite.xml run-tests \
+       	-DsagHome=$(sagHome) \
+       	-Dhostname=$(stageHost) \
+       	-Dport=$(stagePort) \
+       	-Dusername=$(stageUser) \
+       	-Dpassword=$(stagePassword)       
+    displayName: 'UnitTest'
+    
 - stage: Deploy
   jobs:
   - job: Create_Target_Project

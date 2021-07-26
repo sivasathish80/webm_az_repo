@@ -1,5 +1,7 @@
 # Starter pipeline
 
+name: $(Build.DefinitionName)_$(Build.SourceBranchName)_$(Date:yyyyMMdd)$(Rev:rr)
+
 variables:
   server: 'localhost'
   buildName: $(Build.DefinitionName)"_"$(Build.SourceBranchName)"_"$(Build.BuildNumber)

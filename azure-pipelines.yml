@@ -1,18 +1,21 @@
 # Starter pipeline
 
-name: $(Build.DefinitionName)_$(Build.SourceBranchName)_$(Date:yyyyMMdd)$(Rev:rr)
-
 variables:
-  server: 'localhost'
-  buildName: $(Build.DefinitionName)"_"$(Build.SourceBranchName)"_"$(Build.BuildNumber)
+  buildDir: $(Agent.BuildDirectory)
+  buildName: $(Build.DefinitionName)_$(Build.SourceBranchName)_$(Build.BuildNumber)
+  depProject: $(buildName)_${{parameters.targetEnvironment}}
+  depSet: "deploymentset"
+  depMap: "deploymentmap"
+  depCandidate: "depoymentcandidate"
+  
+  
   
 parameters:
 - name: targetEnvironment
   displayName: Target Environment
   type: string
-  default: stage
+  default: sit
   values:
-  - stage  
   - sit
   - uat
   - prod
@@ -29,31 +32,56 @@ stages:
   - job: ABE_Job
     steps:
     - bash: |
-       echo $(name)
        echo $(buildName)
        echo $(Agent.BuildDirectory)
        echo $(sagHome)
        echo ${{parameters.targetEnvironment}}
-       BuildDir=$(Agent.BuildDirectory)
-       echo $BuildDir
+       echo $(buildDir)
        cd $(sagHome)/common/AssetBuildEnvironment/bin/
        ./build.sh \
         -Dsag.install.dir=$(sagHome) \
-        -Dbuild.source.dir=$BuildDir/s/source/IS/ \
-        -Dbuild.output.dir=$BuildDir/build/ \
+        -Dbuild.source.dir=$(buildDir)/s/source/IS/ \
+        -Dbuild.output.dir=$(buildDir)/build/ \
         -Denable.build.IS=true \
         -Dbuild.version=1.0      
        
-       cd $BuildDir/build/
+       cd $(buildDir)/build/
        ls -ltr
     displayName: 'Create ABE Build'
 
 - stage: Stage
   jobs:
+  - job: Create_Project_Job
+    steps:
+    - bash: |
+       echo $(sagHome)
+       cd $(sagHome)/common/lib/ant/bin/
+       ./ant -file $(buildDir)/s/scripts/deployer/build.xml createProjectReposiotry \
+       	-Dsag.install.dir=$(sagHome) \
+        -Dautomator.file=$(buildDir)/s/scripts/deployer/ProjectAutomatorIS.xml \
+        -Dautomator.file.tpl=$(buildDir)/s/scripts/deployer/ProjectAutomatorIS.tpl \
+        -Ddeployer.home=$(sagHome)/IntegrationServer/instances/default/packages/WmDeployer \
+        -Ddeployer.host=$(stageHost) \
+        -Ddeployer.port=$(stagePort) \
+        -Ddeployer.user=$(stageUser) \
+        -Ddeployer.pwd=$(stagePassword) \
+        -Dis_proj.name=$(buildName)_'stage' \
+        -Dis_depset.name=$(depSet) \
+        -Dis_depmap.name=$(depMap) \
+        -Dis_depcan.name=$(depCandidate) \
+        -Dproj_repository.name=$(buildName) \
+        -Dproj_repository.path=$(buildDir)/build/ \
+        -Dis_target.alias=${{parameters.targetEnvironment}} \
+        -Dis_target.host=$(targetHost) \
+        -Dis_target.port=$(targetPort) \
+        -Dis_target.user=$(targetUser) \
+        -Dis_target.pwd=$(targetPassword) \
+        -Dis.version=$(targetVersion)
+    displayName: 'Deploy_Stage_Env'
   - job: Stage_Deploy_Job
     steps:
       - script: echo Hello, DevJob1! $(System.JobId) $(name)
-    displayName: 'Deploy_Stage_Env'
+    displayName: 'Deploy_Stage_Env'    
 
 - stage: CleanUp
   jobs:

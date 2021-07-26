@@ -7,7 +7,7 @@ variables:
   depProject: $(buildName)_${{parameters.targetEnvironment}}
   depSet: "deploymentset"
   depMap: "deploymentmap"
-  depCandidate: "depoymentcandidate"
+  depCandidate: "deploymentcandidate"
   
   
   
@@ -79,9 +79,6 @@ stages:
         -Dis_target.pwd=$(stagePassword) \
         -Dis.version=$(targetVersion)
     displayName: 'Create_Stage_Project'
-
-- stage: Stage1
-  jobs:
   - job: Deploy_Stage
     steps:
     - bash: |
@@ -90,11 +87,11 @@ stages:
        ./Deployer.sh --deploy \
         -project $(buildName)_'stage' \
         -dc $(depCandidate) \
-        -host $(targetHost) \
-        -port $(targetPort) \
-        -user $(targetUser) \
-        -pwd $(targetPassword)      
-    displayName: 'Deploy_Stage'    
+        -host $(stageHost) \
+        -port $(stagePort) \
+        -user $(stageUser) \
+        -pwd $(stagePassword)      
+    displayName: 'Deploy_Stage'     
 
 - stage: Deploy
   jobs:
@@ -131,12 +128,12 @@ stages:
        echo $(sagHome)
        cd $(sagHome)/IntegrationServer/instances/default/packages/WmDeployer/bin/
        ./Deployer.sh --deploy \
-        -project $(buildName)_'stage' \
+        -project $(buildName)_${{parameters.targetEnvironment}} \
         -dc $(depCandidate) \
-        -host $(targetHost) \
-        -port $(targetPort) \
-        -user $(targetUser) \
-        -pwd $(targetPassword)  
+        -host $(stageHost) \
+        -port $(stagePort) \
+        -user $(stageUser) \
+        -pwd $(stagePassword)  
     displayName: 'Deploy_Target'    
 
 - stage: CleanUp

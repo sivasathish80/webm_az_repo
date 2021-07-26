@@ -7,6 +7,7 @@ variables:
   job: $(jobId)"_"$(jobName)
   jobDisplayName: $(System.JobDisplayName)
   jobAttempt: $(System.JobAttempt)
+  defId: $(System.DefinitionId)
   
 parameters:
 - name: targetEnvironment
@@ -31,6 +32,7 @@ stages:
   - job: ABE_Job
     steps:
     - bash: |
+       echo $(defId)
        echo $(job)
        echo $(jobId)
        echo $(jobName)
@@ -57,7 +59,7 @@ stages:
   jobs:
   - job: Stage_Deploy_Job
     steps:
-      - script: echo Hello, DevJob1!
+      - script: echo Hello, DevJob1! $(System.JobId)
     displayName: 'Deploy_Stage_Env'
 
 - stage: CleanUp
@@ -65,6 +67,7 @@ stages:
   - job: Cleanup_Job
     steps:
     - bash: |
+       echo $(System.JobId)
        cd $(Agent.BuildDirectory)
        ls -ltr
        rm -rf *

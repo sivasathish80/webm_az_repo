@@ -6,13 +6,13 @@
   
   <taskdef resource="net/sf/antcontrib/antlib.xml">
     <classpath>
-       <pathelement location="../ant-contrib-1.0b3.jar"/>
+       <pathelement location="${webMethods.dir}/common/lib/ant/ant-contrib-1.0b3.jar"/>
     </classpath>
   </taskdef>
   
    <taskdef uri="antlib:net.sf.antcontrib" >
     <classpath>
-       <pathelement location="../ant-contrib-1.0b3.jar"/>
+       <pathelement location="${webMethods.dir}/common/lib/ant/ant-contrib-1.0b3.jar"/>
     </classpath>
   </taskdef>
   

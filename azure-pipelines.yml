@@ -8,7 +8,7 @@ variables:
   jobDisplayName: $(System.JobDisplayName)
   jobAttempt: $(System.JobAttempt)
   defId: $(System.DefinitionId)
-  name: $(Date:yyyyMMdd)"_"$(Rev:r)
+  name: $(Seconds)
   
 parameters:
 - name: targetEnvironment
@@ -33,7 +33,7 @@ stages:
   - job: ABE_Job
     steps:
     - bash: |
-       echo $(Date:yyyyMMdd) $(Rev:r)
+       echo $(Date:yyyyMMdd) $(Rev:rr)
        echo $(name)
        echo $(defId)
        echo $(job)

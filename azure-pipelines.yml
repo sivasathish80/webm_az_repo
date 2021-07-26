@@ -72,11 +72,11 @@ stages:
         -Dis_depcan.name=$(depCandidate) \
         -Dproj_repository.name=$(buildName) \
         -Dproj_repository.path=$(buildDir)/build/ \
-        -Dis_target.alias=${{parameters.targetEnvironment}} \
-        -Dis_target.host=$(targetHost) \
-        -Dis_target.port=$(targetPort) \
-        -Dis_target.user=$(targetUser) \
-        -Dis_target.pwd=$(targetPassword) \
+        -Dis_target.alias=stage \
+        -Dis_target.host=$(stageHost) \
+        -Dis_target.port=$(stagePort) \
+        -Dis_target.user=$(stageUser) \
+        -Dis_target.pwd=$(stagePassword) \
         -Dis.version=$(targetVersion)
     displayName: 'Create_Stage_Project'
   - job: Deploy_Stage

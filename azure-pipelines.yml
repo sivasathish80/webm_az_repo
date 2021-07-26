@@ -3,6 +3,7 @@
 variables:
   buildDir: $(Agent.BuildDirectory)
   buildName: $(Build.DefinitionName)_$(Build.SourceBranchName)_$(Build.BuildNumber)
+  
   depProject: $(buildName)_${{parameters.targetEnvironment}}
   depSet: "deploymentset"
   depMap: "deploymentmap"
@@ -29,7 +30,7 @@ pool:
 stages:
 - stage: Build
   jobs:
-  - job: ABE_Job
+  - job: Create Build
     steps:
     - bash: |
        echo $(buildName)
@@ -47,11 +48,11 @@ stages:
        
        cd $(buildDir)/build/
        ls -ltr
-    displayName: 'Create ABE Build'
+    displayName: 'Build'
 
 - stage: Stage
   jobs:
-  - job: Create_Project_Job
+  - job: Create Stage Project
     steps:
     - bash: |
        echo $(sagHome)
@@ -77,11 +78,63 @@ stages:
         -Dis_target.user=$(targetUser) \
         -Dis_target.pwd=$(targetPassword) \
         -Dis.version=$(targetVersion)
-    displayName: 'Deploy_Stage_Env'
-  - job: Stage_Deploy_Job
+    displayName: 'Create Stage Project'
+  - job: Deploy Stage
     steps:
-      - script: echo Hello, DevJob1! $(System.JobId) $(name)
-    displayName: 'Deploy_Stage_Env'    
+    - bash: |
+       echo $(sagHome)
+       cd $(sagHome)/IntegrationServer/instances/default/packages/WmDeployer
+       ./Deployer.sh --deploy \
+        -project $(buildName)_'stage' \
+        -dc $(depCandidate) \
+        -host $(targetHost) \
+        -port $(targetPort) \
+        -user $(targetUser) \
+        -pwd $(targetPassword)      
+    displayName: 'Deploy Stage'    
+
+- stage: Deploy
+  jobs:
+  - job: Create Target Project
+    steps:
+    - bash: |
+       echo $(sagHome)
+       cd $(sagHome)/common/lib/ant/bin/
+       ./ant -file $(buildDir)/s/scripts/deployer/build.xml createProjectReposiotry \
+       	-Dsag.install.dir=$(sagHome) \
+        -Dautomator.file=$(buildDir)/s/scripts/deployer/ProjectAutomatorIS.xml \
+        -Dautomator.file.tpl=$(buildDir)/s/scripts/deployer/ProjectAutomatorIS.tpl \
+        -Ddeployer.home=$(sagHome)/IntegrationServer/instances/default/packages/WmDeployer \
+        -Ddeployer.host=$(stageHost) \
+        -Ddeployer.port=$(stagePort) \
+        -Ddeployer.user=$(stageUser) \
+        -Ddeployer.pwd=$(stagePassword) \
+        -Dis_proj.name=$(buildName)_${{parameters.targetEnvironment}} \
+        -Dis_depset.name=$(depSet) \
+        -Dis_depmap.name=$(depMap) \
+        -Dis_depcan.name=$(depCandidate) \
+        -Dproj_repository.name=$(buildName) \
+        -Dproj_repository.path=$(buildDir)/build/ \
+        -Dis_target.alias=${{parameters.targetEnvironment}} \
+        -Dis_target.host=$(targetHost) \
+        -Dis_target.port=$(targetPort) \
+        -Dis_target.user=$(targetUser) \
+        -Dis_target.pwd=$(targetPassword) \
+        -Dis.version=$(targetVersion)
+    displayName: 'Create Target Project'
+  - job: Deploy Target
+    steps:
+    - bash: |    
+       echo $(sagHome)
+       cd $(sagHome)/IntegrationServer/instances/default/packages/WmDeployer
+       ./Deployer.sh --deploy \
+        -project $(buildName)_'stage' \
+        -dc $(depCandidate) \
+        -host $(targetHost) \
+        -port $(targetPort) \
+        -user $(targetUser) \
+        -pwd $(targetPassword)  
+    displayName: 'Deploy Target'    
 
 - stage: CleanUp
   jobs:

@@ -83,7 +83,7 @@ stages:
     steps:
     - bash: |
        echo $(sagHome)
-       cd $(sagHome)/IntegrationServer/instances/default/packages/WmDeployer
+       cd $(sagHome)/IntegrationServer/instances/default/packages/WmDeployer/bin/
        ./Deployer.sh --deploy \
         -project $(buildName)_'stage' \
         -dc $(depCandidate) \
@@ -126,7 +126,7 @@ stages:
     steps:
     - bash: |    
        echo $(sagHome)
-       cd $(sagHome)/IntegrationServer/instances/default/packages/WmDeployer
+       cd $(sagHome)/IntegrationServer/instances/default/packages/WmDeployer/bin/
        ./Deployer.sh --deploy \
         -project $(buildName)_'stage' \
         -dc $(depCandidate) \

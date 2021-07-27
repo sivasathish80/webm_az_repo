@@ -64,6 +64,8 @@
     <pathelement location="${webMethods.dir}/common/lib/testsuite/xmlunit1.0.jar" />
     <pathelement location="${webMethods.dir}/common/lib/wm-isclient.jar" />
     <pathelement location="${webMethods.dir}/common/lib/glassfish/gf.jakarta.mail.jar" />
+    <pathelement location="${webMethods.dir}/common/lib/wm-g11nutils.jar" />
+    <pathelement location="${webMethods.dir}/common/lib/ext/icu4j.jar" />
   </path>
 
   <target name="run-test">

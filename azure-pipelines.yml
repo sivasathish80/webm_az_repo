@@ -50,6 +50,50 @@ stages:
        ls -ltr
     displayName: 'Create_Build'
 
+- stage: Stage
+  jobs:
+  - job: Create_Stage_Project
+    steps:
+    - bash: |
+       echo $(sagHome)
+       cd $(sagHome)/common/lib/ant/bin/
+       ./ant -file $(buildDir)/s/scripts/deployer/build.xml createProjectReposiotry \
+       	-Dsag.install.dir=$(sagHome) \
+        -Dautomator.file=$(buildDir)/s/scripts/deployer/ProjectAutomatorIS.xml \
+        -Dautomator.file.tpl=$(buildDir)/s/scripts/deployer/ProjectAutomatorIS.tpl \
+        -Ddeployer.home=$(sagHome)/IntegrationServer/instances/default/packages/WmDeployer \
+        -Ddeployer.host=$(stageHost) \
+        -Ddeployer.port=$(stagePort) \
+        -Ddeployer.user=$(stageUser) \
+        -Ddeployer.pwd=$(stagePassword) \
+        -Dis_proj.name=$(buildName)_'stage' \
+        -Dis_depset.name=$(depSet) \
+        -Dis_depmap.name=$(depMap) \
+        -Dis_depcan.name=$(depCandidate) \
+        -Dproj_repository.name=$(buildName) \
+        -Dproj_repository.path=$(buildDir)/build/ \
+        -Dis_target.alias=stage \
+        -Dis_target.host=$(stageHost) \
+        -Dis_target.port=$(stagePort) \
+        -Dis_target.user=$(stageUser) \
+        -Dis_target.pwd=$(stagePassword) \
+        -Dis.version=$(targetVersion)
+    displayName: 'Create_Stage_Project'
+  - job: Deploy_Stage
+    dependsOn: Create_Stage_Project
+    steps:
+    - bash: |
+       echo $(sagHome)
+       cd $(sagHome)/IntegrationServer/instances/default/packages/WmDeployer/bin/
+       ./Deployer.sh --deploy \
+        -project $(buildName)_'stage' \
+        -dc $(depCandidate) \
+        -host $(stageHost) \
+        -port $(stagePort) \
+        -user $(stageUser) \
+        -pwd $(stagePassword)      
+    displayName: 'Deploy_Stage'     
+
 - stage: UnitTest
   jobs:
   - job: UnitTest
@@ -59,11 +103,10 @@ stages:
        cd $(sagHome)/common/lib/ant/bin/
        ./ant -file $(buildDir)/s/scripts/unittest/build-runsuite.xml run-tests \
        	-DsagHome=$(sagHome) \
-       	-DbuildHome=$(buildDir)/s/source/IS \
        	-Dhostname=$(stageHost) \
        	-Dport=$(stagePort) \
        	-Dusername=$(stageUser) \
-       	-Dpassword=$(stagePassword)
+       	-Dpassword=$(stagePassword)       
     displayName: 'UnitTest'
     
 - stage: Deploy

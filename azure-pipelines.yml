@@ -59,11 +59,11 @@ stages:
        cd $(sagHome)/common/lib/ant/bin/
        ./ant -file $(buildDir)/s/scripts/unittest/build-runsuite.xml run-tests \
        	-DsagHome=$(sagHome) \
-       	-DbuildHome=$(buildDir)/s/source/IS \        
+       	-DbuildHome=$(buildDir)/s/source/IS \
        	-Dhostname=$(stageHost) \
        	-Dport=$(stagePort) \
        	-Dusername=$(stageUser) \
-       	-Dpassword=$(stagePassword)       
+       	-Dpassword=$(stagePassword)
     displayName: 'UnitTest'
     
 - stage: Deploy

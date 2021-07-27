@@ -30,7 +30,7 @@
    <foreach target="test-and-report-xml" param="loop.param">
    <path>
      <!-- <dirset dir="C:/Sathish/SoftwareAG105/IntegrationServer/instances/default/packages/" includes="*" /> -->
-	  <dirset dir="${pkgHome}/" includes="*" />
+	  <dirset dir="${webMethods.dir}/IntegrationServer/instances/default/packages/" includes="*" />
 	  
 	</path>  
    </foreach>
@@ -48,7 +48,6 @@
   
   <!-- wM Installation -->
   <property name="webMethods.dir" value="${sagHome}"/>
-  <property name="pkgHome" value="${buildHome}"/>
   
   <!-- Test -->
   <property name="webMethods.package.dir" location="${loop.param}" />
